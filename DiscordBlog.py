@@ -88,7 +88,7 @@ featured_image: "images/CUPFLB.png"
     # Call the function to create a blog post on GitHub
     try:
         create_blog_post_and_image(post_content, dashed_title, current_datetime_formatted, image_folder, image_path)
-        await ctx.respond(f'Blog post successfully sent and will be available momentarily at https://cupertinoalliance.github.io/post/{dashed_title}-{current_datetime_formatted}/.')
+        await ctx.respond(f'Blog post successfully sent and will be available momentarily at https://www.cupertino.forum/post/{dashed_title}-{current_datetime_formatted}/.')
 
         # Create and send the embed
         embed = discord.Embed(title=title, description=text, color=discord.Color.blue())
