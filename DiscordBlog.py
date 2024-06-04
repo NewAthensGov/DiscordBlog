@@ -41,7 +41,7 @@ async def news(
     author: str,
     text: str,
     header_image: str,
-    link: str
+    link: str = ""
 ):
     # Get the current date and time in the required format
     current_datetime = datetime.datetime.utcnow().isoformat() + 'Z'
@@ -89,13 +89,23 @@ featured_image: "images/CUPFLB.png"
     try:
         create_blog_post_and_image(post_content, dashed_title, current_datetime_formatted, image_folder, image_path)
         await ctx.respond(f'Blog post successfully sent and will be available momentarily at https://cupertinoalliance.github.io/post/{dashed_title}-{current_datetime_formatted}/.')
+
+        # Create and send the embed
+        embed = discord.Embed(title=title, description=text, color=discord.Color.blue())
+        embed.set_author(name=author)
+        if header_image:
+            embed.set_image(url=header_image)
+        if link:
+            embed.add_field(name="External Link", value=link, inline=False)
+
+        await ctx.send(embed=embed)
     except Exception as e:
         await ctx.respond(f'Failed to create blog post: {e}')
 
     # Delete the local post directory
     if os.path.isfile(image_folder) or os.path.isdir(image_folder):
-         shutil.rmtree(image_folder)
-         print(f"Successfully deleted {image_folder}")
+        shutil.rmtree(image_folder)
+        print(f"Successfully deleted {image_folder}")
     else:
         print(f"Failed to delete {image_folder}: {e}")
 
